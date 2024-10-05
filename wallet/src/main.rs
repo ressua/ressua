@@ -1,5 +1,5 @@
 mod wallet;
-mod transaction;
+//mod transaction; 
 mod network;
 mod key_management;
 mod storage;

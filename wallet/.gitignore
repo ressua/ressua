@@ -1,0 +1,22 @@
+# Ignore Cargo's intermediate files and outputs
+/target/
+**/*.rs.bk
+
+# Ignore build scripts' output
+/.cargo/
+
+# Ignore compiled libraries or executables
+*.rlib
+*.lock
+
+# Ignore the Cargo lock file, unless you're building a library
+# Uncomment this if you want to ignore the Cargo.lock for binaries.
+# Cargo.lock
+
+# Ignore backup files from editors
+*~
+*.swp
+*.swo
+*.swn
+*.bak
+*.tmp

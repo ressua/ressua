@@ -7,10 +7,10 @@ pub struct Wallet {
 }
 
 impl Wallet {
-    pub fn new() -> Self {
+    pub fn new(is_testnet: bool) -> Self {
         Wallet {
-            key_manager: KeyManager::new(),
-            network: BitcoinNetwork::new(),
+            key_manager: KeyManager::new(is_testnet),
+            network: BitcoinNetwork::new(is_testnet),
         }
     }
 
@@ -21,7 +21,7 @@ impl Wallet {
         address
     }
 
-    pub async fn get_balance(&self, address: &str) -> f64 {
+    pub async fn get_balance(&self, address: &str) -> Result<f64, reqwest::Error> {
         self.network.get_balance(address).await
     }
 }

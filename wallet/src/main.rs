@@ -9,13 +9,22 @@ use wallet::Wallet;
 
 #[tokio::main]
 async fn main() {
-    let mut wallet = Wallet::new();
+
+    // Mainnet or Testnet boolean parameter config
+    let is_testnet = true;
+
+    let mut wallet = Wallet::new(is_testnet);
     
     // Generate a new address
     let address = wallet.generate_new_address();
     println!("New Address: {}", address);
 
     // Fetch balance (example network function)
-    let balance = wallet.get_balance(&address).await;
-    println!("Balance for {}: {} BTC", address, balance);
+    //let balance = wallet.get_balance(&address).await;
+    //println!("Balance for {}: {} BTC", address, balance);
+
+    match wallet.get_balance(&address).await {
+        Ok(balance) => println!("Balance for {}: {} BTC", address, balance),
+        Err(e) => println!("Failed to get balance for {}: {}", address, e),
+    }
 }

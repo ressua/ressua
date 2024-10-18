@@ -1,5 +1,6 @@
 use crate::key_management::KeyManager;
 use crate::network::BitcoinNetwork;
+use crate::storage::{Storage, WalletData};
 
 pub struct Wallet {
     key_manager: KeyManager,
@@ -27,10 +28,14 @@ impl Wallet {
 
     pub fn generate_and_save_key_pair(&self) {
         let (private_key, public_key) = self.key_manager.generate_key_pair();
-        let mut wallet_data = Storage::load_wallet();
-        wallet_data.private_keys.push(private_key.to_string());
-        wallet_data.public_keys.push(public_key.to_string());
-        Storage::save_wallet(&wallet_data);
+   
+        let mut wallet_data = WalletData {
+            private_key: vec!["dummy_private_key".to_string()],
+            public_key: vec!["dummy_public_key".to_string()],
+        };
+        wallet_data.private_key.push(private_key.to_string());
+        wallet_data.public_key.push(public_key.to_string());
+        Storage::save_wallet(&wallet_data, "data/wallet.json");
     }
 }
 

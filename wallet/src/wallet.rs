@@ -35,7 +35,7 @@ impl Wallet {
         };
         wallet_data.private_key.push(private_key.to_string());
         wallet_data.public_key.push(public_key.to_string());
-        Storage::save_wallet(&wallet_data, "data/wallet.json");
+        Storage::save_wallet(&wallet_data, "wallet.json");
     }
 }
 
@@ -45,6 +45,7 @@ mod tests {
     use crate::key_management::KeyManager;
     use crate::network::BitcoinNetwork;
     use crate::storage::WalletData;
+    use tempfile::NamedTempFile;
     
     #[tokio::test]
     async fn test_generate_new_address() {
@@ -65,5 +66,31 @@ mod tests {
             Ok(balance) => assert!(balance >= 0.0, "Balance should be non-negative"),
             Err(e) => panic!("Failed to get balance: {}", e),
         }
+    }
+
+    #[tokio::test]
+    async fn test_generate_and_save_key_pair() {
+        // Create a temporary file for testing
+        let temp_file = NamedTempFile::new().unwrap();
+        let temp_path = temp_file.path().to_str().unwrap();
+
+        // Override the storage file path for testing
+        std::env::set_var("WALLET_DATA_PATH", temp_path);
+
+        // Create a test wallet
+        let wallet = Wallet::new(true); // Testnet wallet
+
+        // Generate and save a new key pair
+        wallet.generate_and_save_key_pair();
+
+        // Load the wallet data from the temporary file
+        let wallet_data = Storage::load_wallet(temp_path);
+
+        // Check that the key pair was saved correctly
+        assert_eq!(wallet_data.private_key.len(), 1);
+        assert_eq!(wallet_data.public_key.len(), 1);
+
+        // Clean up the environment variable
+        std::env::remove_var("WALLET_DATA_PATH");
     }
 }

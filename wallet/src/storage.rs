@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use std::fs;
+use std::io::ErrorKind;
 
 #[derive(Serialize, Deserialize)]
 pub struct WalletData {
@@ -10,16 +11,27 @@ pub struct WalletData {
 pub struct Storage;
 
 impl Storage {
-    // Additional methods for testing file I/O with custom paths
-    pub fn save_wallet(wallet_data: &WalletData, path: &str) {
-        let data = serde_json::to_string_pretty(&wallet_data).unwrap();
-        fs::write(path, data).unwrap();
+    fn get_wallet_data_path() -> String {
+        std::env::var("WALLET_DATA_PATH").unwrap_or_else(|_| "wallet_data.json".to_string())
     }
 
     pub fn load_wallet(path: &str) -> WalletData {
-        let data = fs::read_to_string(path)
-            .unwrap_or_else(|_| String::from("{ \"private_key\": [], \"public_key\": [] }"));
+        let data = match fs::read_to_string(path) {
+            Ok(content) => content,
+            Err(error) => match error.kind() {
+                ErrorKind::NotFound => {
+                    // If the file is not found, return a default WalletData
+                    String::from("{ \"private_key\": [], \"public_key\": [] }")
+                }
+                _ => panic!("Failed to read wallet data: {}", error),
+            },
+        };
         serde_json::from_str(&data).unwrap()
+    }
+
+    pub fn save_wallet(wallet_data: &WalletData, path: &str) {
+        let data = serde_json::to_string_pretty(&wallet_data).unwrap();
+        fs::write(&path, data).unwrap();
     }
 }
 
@@ -29,8 +41,8 @@ mod tests {
     use std::fs;
     use tempfile::NamedTempFile;
 
-    #[test]
-    fn test_save_load_wallet() {
+    #[tokio::test]
+    async fn test_save_load_wallet() {
         // Create temporary file for testing
         let tmp_file = NamedTempFile::new().unwrap();
         let tmp_path = tmp_file.path().to_str().unwrap().to_string();

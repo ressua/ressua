@@ -1,5 +1,5 @@
 # Ressua 
-**Res sua** *(rās sū´a . res sū´u)* . *n.*  
+**Res sua** *(rās sū´a)*. *n.*  
 “One’s own thing”. “One’s own property” [1]
 
 **Ressua** is an open-source, peer-to-peer (P2P) platform that enables decentralized Bitcoin-collateralized loans. It facilitates secure lending and borrowing, leveraging Bitcoin as collateral in a trustless manner. Built on the principles of decentralization, the project aims to provide users with direct financial access, maintaining privacy and security throughout the lending process.

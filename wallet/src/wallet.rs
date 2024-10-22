@@ -15,8 +15,8 @@ impl Wallet {
         }
     }
 
-    pub fn generate_new_address(&mut self) -> String {
-        let (_private_key, public_key) = self.key_manager.generate_key_pair();
+    pub fn generate_new_address(&mut self, &public_key) -> String {
+        // let (_private_key, public_key) = self.key_manager.generate_key_pair();
         let address = self.key_manager.public_key_to_address(&public_key);
         // Store the private key securely
         address
@@ -50,7 +50,7 @@ mod tests {
     #[tokio::test]
     async fn test_generate_new_address() {
         let mut wallet = Wallet::new(true); // Testnet wallet
-        let address = wallet.generate_new_address();
+        let address = wallet.generate_new_address(public_key);
         assert!(address.starts_with('m') || address.starts_with('n') || address.starts_with('2'), 
                 "Address should start with m, n or 2 for testnet");
     }
@@ -58,7 +58,7 @@ mod tests {
     #[tokio::test]
     async fn test_get_balance() {
         let mut wallet = Wallet::new(true); // Testnet wallet
-        let address = wallet.generate_new_address();
+        let address = wallet.generate_new_address(public_key);
 
         // Use a mock balance for testing, assuming the network layer is implemented
         // and returns a balance (or adjust depending on the actual implementation)

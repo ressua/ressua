@@ -16,7 +16,7 @@ async fn main() {
     let mut wallet = Wallet::new(is_testnet);
     
     // Generate a new address
-    let address = wallet.generate_new_address();
+    let address = wallet.generate_new_address(public_key);
     println!("New Address: {}", address);
 
     wallet.generate_and_save_key_pair();

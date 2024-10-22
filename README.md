@@ -30,7 +30,42 @@ The goal of **Ressua** is to connect lenders and borrowers in a trust-minimized 
 5. **Repayment**:
 If the borrower repays the loan in full by the agreed-upon date, the collateral is released back to them.
 
+\
 **WIP Logs**
+\
 Ideation work continues as the fiat repayment is faced by the yet to be solved *Oracle Problem* - where off-chain events are difficult to verify in an isolated bitcoin-based system. Perhaps time-locked cosigned transactions of partial collateral returning to the borrower *N* days after declaring a fiat repayment in period *t* solves this, where a lender dispute opened avoids this, and a false dispute opening is punished to keep incentives aligned.   
+\
+Potential solution to Oracle Problem could be connecting to Swift or SEPA APIs of payment processing companies like Stripe and Wise or even traditional banks:
+\
+\
+Request flow for confirming a SEPA transfer via a bank API:
+```json
+POST /api/sepa/transfer
+{
+    "debtorIBAN": "DE89370400440532013000",
+    "creditorIBAN": "FR1420041010050500013M02606",
+    "amount": "100.00",
+    "currency": "EUR",
+    "reference": "Invoice123"
+}
+Response:
+{
+    "transferId": "123456789",
+    "status": "PENDING"
+}
+Then, to confirm the transfer:
+
+GET /api/sepa/transfer/status?transferId=123456789
+Response:
+
+{
+    "transferId": "123456789",
+    "status": "CONFIRMED"
+}
+```
+
+
+
+
 
 [1]: https://www.oxfordreference.com/display/10.1093/acref/9780195369380.001.0001/acref-9780195369380-e-1846 "Oxford Reference"

@@ -30,9 +30,7 @@ The goal of **Ressua** is to connect lenders and borrowers in a trust-minimized 
 5. **Repayment**:
 If the borrower repays the loan in full by the agreed-upon date, the collateral is released back to them.
 
-\
-**WIP Logs**
-\
+## WIP Logs
 Ideation work continues as the fiat repayment is faced by the yet to be solved *Oracle Problem* - where off-chain events are difficult to verify in an isolated bitcoin-based system. Perhaps time-locked cosigned transactions of partial collateral returning to the borrower *N* days after declaring a fiat repayment in period *t* solves this, where a lender dispute opened avoids this, and a false dispute opening is punished to keep incentives aligned.   
 \
 Potential solution to Oracle Problem could be connecting to Swift or SEPA APIs of payment processing companies like Stripe and Wise or even traditional banks:
@@ -64,8 +62,36 @@ Response:
 }
 ```
 
-
-
+## API design 
+Design ideas for a trusted oracle Ressua API to verify SEPA transfers might be the way to confirm fiat transfers.
+I.e. in such setup we have: 
+```
+Step (0) Contract creation:
+The collateral bitcoin is transferred to a Ressua multisig vault by Alice 
+Alice --- Ressua API --- Bob 
+```
+```
+Step (1) Loan transfer:
+Once Bob has verified the collateral bitcoin, Bob POSTs loan transfer
+Alice --- Ressua API <-- Bob 
+```
+```
+Step (2) Ressua API verifies:
+Ressua verifies fiat loan arrival in Alice's bank account 
+Alice <-- Ressua API --- Bob 
+```
+```
+Step (3....N) Repayment transfers & verifications:
+Alice POSTs repayment transfer
+Alice --> Ressua API --- Bob
+Ressua verifies fiat repayment arrival in Bob's bank account 
+Alice --- Ressua API --> Bob 
+```
+```
+Step (N+1) Final bitcoin collateral release
+Ressua verifies fiat loan arrival in Alice's bank account 
+Alice <-- Ressua API --- Bob 
+```
 
 
 [1]: https://www.oxfordreference.com/display/10.1093/acref/9780195369380.001.0001/acref-9780195369380-e-1846 "Oxford Reference"

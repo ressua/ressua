@@ -109,3 +109,17 @@ mod tests {
         );
     }
 }
+
+// Test the server with curl
+// curl http://localhost:3000/hello/ressua-api
+/*
+curl -X POST http://localhost:3000/sepa_transfer \
+     -H "Content-Type: application/json" \
+     -d '{
+           "sender_iban": "DE89370400440532013000",
+           "receiver_iban": "FR7630006000011234567890189",
+           "amount": 100.0,
+           "currency": "EUR",
+           "reference": "Invoice 12345"
+         }'
+*/

@@ -99,5 +99,10 @@ Access to their sandbox API and testing out the functionality is a good next ste
 \
 \
 If Ressua's code is fully open source and the bitcoin system is built in such a way there is no way for Ressua to obtain the collateral, then it is fair to assume that Alice and Bob may agree to use a verifying Ressua API to be oracle source for fiat payments.   
+\
+\
+Alice and Ressua jointly sign a pre-signed transaction at the contract’s creation. This transaction would release the collateral to Bob if Alice defaults.
+This transaction would be time-locked to execute automatically if Alice fails to make a repayment within the agreed-upon timeframe, effectively releasing the Bitcoin collateral to Bob without any further action required on his part.
+
 
 [1]: https://www.oxfordreference.com/display/10.1093/acref/9780195369380.001.0001/acref-9780195369380-e-1846 "Oxford Reference"

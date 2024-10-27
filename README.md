@@ -93,9 +93,9 @@ Ressua verifies fiat loan arrival in Alice's bank account
 Alice <-- Ressua API --- Bob 
 ```
 
-## Testing against Revoluts sandbox API
+## Testing against Revoluts or Lunar sandbox API
 Revolut is a neobank that enables routing of instant SEPA transfers and also verification of them.
-Access to their sandbox API and testing out the functionality is a good next step. In bitcoin, we aim for trustless systems, but with Ressua combining fiat payments into the mix, the best we can aim for is a trust-minimized system. From what I can gather, instant SEPA transfers require a banking license which neobanks like Revolut or Wise holds. Ressua can tap into their fiat payments rails and act as the oracle source for verifying the fiat payments. 
+Access to their sandbox API and testing out the functionality is a good next step. In bitcoin, we aim for trustless systems, but with Ressua combining fiat payments into the mix, the best we can aim for is a trust-minimized system. From what I can gather, instant SEPA transfers require a banking license which neobanks like Revolut, Lunar or Wise holds. Ressua can tap into their fiat payments rails and act as the oracle source for verifying the fiat payments. 
 \
 \
 If Ressua's code is fully open source and the bitcoin system is built in such a way there is no way for Ressua to obtain the collateral, then it is fair to assume that Alice and Bob may agree to use a verifying Ressua API to be oracle source for fiat payments.   

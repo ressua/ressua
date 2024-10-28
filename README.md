@@ -30,7 +30,19 @@ The goal of **Ressua** is to connect lenders and borrowers in a trust-minimized 
 5. **Repayment**:
 If the borrower repays the loan in full by the agreed-upon date, the collateral is released back to them.
 
-## WIP Logs
+## Wallet design
+The Ressua bitcoin interface requires building bitcoin wallet software. This software has to enable the user to
+1) create or load a single sig wallet
+2) create or load a multi sig wallet
+3) advanced escrow and/or time-locking functionality
+
+### Wallet MVP framework
+Work continues to focus on building a bitcoin wallet in Rust. The current code base will be refactored into a wallet based on the MVP (model-view-controller) framework.
+- Model: This will handle the Bitcoin-specific data such as managing keys, generating addresses, querying blockchain data for transactions, calculating balance, and managing state.
+- View: In a Bitcoin wallet context, the view could be a graphical user interface (GUI) or a command-line interface (CLI) that allows the user to view their balance, transaction history, and request to send or receive Bitcoin.
+- Controller: This layer will handle the communication between the model and view, responding to user actions (e.g., initiating a transaction) and updating the view accordingly.
+
+## Oracle Problem
 Ideation work continues as the fiat repayment is faced by the yet to be solved *Oracle Problem* - where off-chain events are difficult to verify in an isolated bitcoin-based system. Perhaps time-locked cosigned transactions of partial collateral returning to the borrower *N* days after declaring a fiat repayment in period *t* solves this, where a lender dispute opened avoids this, and a false dispute opening is punished to keep incentives aligned.   
 \
 Potential solution to Oracle Problem could be connecting to Swift or SEPA APIs of payment processing companies like Stripe and Wise or even traditional banks:
@@ -62,7 +74,7 @@ Response:
 }
 ```
 
-## API design 
+### Ressua API design 
 Design ideas for a trusted oracle Ressua API to verify SEPA transfers might be the way to confirm fiat transfers.
 I.e. in such setup we have: 
 ```
@@ -93,7 +105,7 @@ Ressua verifies fiat loan arrival in Alice's bank account
 Alice <-- Ressua API --- Bob 
 ```
 
-## Testing against Revoluts or Lunar sandbox API
+### Testing against Revoluts or Lunar sandbox API
 Revolut is a neobank that enables routing of instant SEPA transfers and also verification of them.
 Access to their sandbox API and testing out the functionality is a good next step. In bitcoin, we aim for trustless systems, but with Ressua combining fiat payments into the mix, the best we can aim for is a trust-minimized system. From what I can gather, instant SEPA transfers require a banking license which neobanks like Revolut, Lunar or Wise holds. Ressua can tap into their fiat payments rails and act as the oracle source for verifying the fiat payments. 
 \

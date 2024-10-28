@@ -13,6 +13,7 @@ async fn main() {
     // Mainnet or Testnet boolean parameter config
     let is_testnet = true;
 
+    // Define wallet object
     let mut wallet = Wallet::new(is_testnet);
     
     // Generate a new address
